@@ -1,0 +1,208 @@
+\ProvidesPackage{beamerthemeqibebt}[2024/07/18]
+
+\RequirePackage{etoolbox}
+\RequirePackage{tikz,pdfrender}
+
+\RequirePackage{geometry}
+\geometry{paperwidth=33.86cm,paperheight=19.05cm}
+
+\RequirePackage{graphicx}
+\RequirePackage{qibebtcolor}
+
+\pgfdeclareimage[width=0.09\paperwidth]{whitelogo}{assets/logo_RGB}
+\pgfdeclareimage[width=0.09\paperwidth]{logo}{assets/logo_RGB_negative}
+\newcommand{\@logo}{logo}
+
+\newcommand{\WRYaHeiZH}{\WRYaHei\CJKfamily{WRYaHei}}
+\setbeamerfont{title}{family=\WRYaHeiZH,size=\fontsize{36}{36}\selectfont,series=\bfseries}
+\setbeamerfont{subtitle}{family=\sonti,size=\fontsize{25}{25}\selectfont}
+\setbeamerfont{author}{family=\WRYaHeiZH,size=\fontsize{28}{28}\selectfont}
+\setbeamerfont{date}{family=\WRYaHeiZH,size=\fontsize{28}{28}\selectfont}
+\setbeamerfont{subtitle}{family=\WRYaHeiZH,size=\fontsize{28}{28}\selectfont}
+\setbeamerfont{frametitle}{family=\WRYaHeiZH,size=\fontsize{24}{24}\selectfont,series=\bfseries}
+\setbeamerfont{framesubtitle}{family=\sonti,size=\fontsize{15}{15}\selectfont}
+\setbeamerfont{footline}{size=\fontsize{18}{18}}
+\setbeamerfont{block title}{size=\fontsize{20}{20},series=\centering\bfseries}
+
+\setsansfont{Times New Roman}
+\renewcommand{\normalsize}{family=\heiti,\fontsize{24}{24}\selectfont}
+
+\setbeamertemplate{navigation symbols}{}
+
+% 封面
+\setbeamertemplate{title page}{
+\begin{tikzpicture}[remember picture,overlay]
+    \fill[maincolor]
+    (current page.north west) rectangle (current page.south east);
+
+    \node[anchor=east]
+    at ([yshift=-30pt, xshift=-10pt]current page.east) (side_logo){
+        \parbox[t]{\paperwidth}{
+            \raggedleft
+            \includegraphics[width=0.5\textwidth]{assets/logo_RGB.png}
+        }
+    };
+
+    \fill[maincolor, fill opacity=0.75]
+    (current page.north west) rectangle (current page.south east);
+
+    \node[anchor=west]
+    at ([yshift=-80pt,xshift=20pt]current page.west) (subtitle){
+        \parbox[t]{0.55\paperwidth}{
+            \usebeamerfont{subtitle}
+            \textcolor{qibebtgray}
+            \insertsubtitle
+        }
+    };
+
+    \node[anchor=north west]
+    at ([yshift=-10pt, xshift=15pt]current page.north west) (logo){
+        \includegraphics[width=0.5\paperwidth]{assets/title_logo.png}
+    };
+
+    \node[anchor=west]
+    at ([yshift=10pt,xshift=10pt]current page.west) (title){
+        \parbox[t]{0.55\textwidth}{
+            \usebeamerfont{title}
+            \textcolor{white}%
+            {\textpdfrender{
+            TextRenderingMode=FillStroke,
+            FillColor=white,
+            LineWidth=.1ex,
+            }
+            \inserttitle
+            }
+        }
+    };
+    
+    \node[anchor=center]
+    at ([yshift=110pt, xshift=-80pt]current page.south) (author){
+        \usebeamerfont{author}
+        \textcolor{white}
+        \insertauthor
+    };
+    
+    \node[anchor=center]
+    at ([yshift=50pt, xshift=-80pt]current page.south) (date){
+        \usebeamerfont{author}
+        \textcolor{white}
+        \insertdate
+    };
+\end{tikzpicture}
+}
+
+% 目录页
+\AtBeginSection[]{
+    \begingroup
+    \begin{frame}{Table of Contents}
+        \setbeamercolor{normal text}{fg=white,bg=maincolor}
+		\setbeamercolor{structure}{fg=white}
+        \begin{tikzpicture}[remember picture,overlay]
+            \fill[maincolor]
+            (current page.north west) rectangle (current page.south east);
+
+            \node[anchor=east]
+            at ([yshift=-30pt, xshift=-10pt]current page.east) (side_logo){
+                \parbox[t]{\paperwidth}{
+                    \raggedleft
+                    \includegraphics[width=0.5\textwidth]{assets/logo_RGB.png}
+                }
+            };
+        
+            \fill[maincolor, fill opacity=0.75]
+            (current page.north west) rectangle (current page.south east);
+
+            \node[anchor=north]
+            at ([yshift=-30pt]current page.north) (title){
+                \usebeamerfont{title}
+                \textcolor{white}{目录}
+            };
+            
+            \draw [line width =2pt,color=white] 
+            ([yshift=-78pt,xshift=-100]current page.north)
+            --
+            ([yshift=-78pt,xshift=100]current page.north);
+
+            \node[anchor=north]
+            at ([yshift=-80pt]current page.north) (title){
+                \usebeamerfont{subtitle}
+                \textcolor{white}{CONTENTS}
+            };
+        \end{tikzpicture}
+        \tableofcontents[currentsection]
+    \end{frame}
+    \endgroup
+}
+\setbeamertemplate{section in toc}{$\blacktriangleright$~\inserttocsection}
+
+% 页眉
+\setbeamertemplate{headline}{
+    \begin{tikzpicture}[remember picture,overlay]            
+        \draw [color=maincolor] 
+        ([yshift=-75pt,xshift=-345]current page.north)
+        --
+        ([yshift=-75pt,xshift=425]current page.north);
+    
+        \node[anchor=north east]
+        at ([yshift=-30pt,xshift=-50]current page.north east) (title){
+            \includegraphics[width=0.095\textwidth]{assets/sc_logo.png}
+        };
+    \end{tikzpicture}
+    \hspace{0.04\textwidth}
+    \pgfuseimage{\@logo}
+}
+\setbeamertemplate{frametitle}{
+    \vspace{-8ex}
+    \begin{beamercolorbox}[leftskip=4cm]{frametitle}
+        \usebeamerfont{frametitle}\textcolor{black}{\insertframetitle}\\
+        \usebeamerfont{framesubtitle}\insertframesubtitle
+    \end{beamercolorbox}
+}
+\makeatletter
+    \pretocmd\beamer@checkframetitle{\framesubtitle{\thesection \, \secname}}
+\makeatother
+
+% 页脚
+% \setbeamercolor{footline}{fg=darkgray, bg=}
+% \setbeamertemplate{footline}{
+%   \begin{beamercolorbox}[wd=\textwidth,ht=5mm,dp=3mm,rightskip=1cm,leftskip=1cm]{footline}
+%   \insertframenumber/\inserttotalframenumber
+%   \end{beamercolorbox}
+% }
+
+% 结束页
+\newcommand{\backmatter}[1][]{
+\begingroup
+    \begin{frame}
+    \begin{tikzpicture}[remember picture,overlay]
+        \fill[maincolor]
+        (current page.north west) rectangle (current page.south east);
+    
+        \node[anchor=east]
+        at ([yshift=-30pt, xshift=-10pt]current page.east) (side_logo){
+            \parbox[t]{\paperwidth}{
+                \raggedleft
+                \includegraphics[width=0.5\textwidth]{assets/logo_RGB.png}
+            }
+        };
+    
+        \fill[maincolor, fill opacity=0.75]
+        (current page.north west) rectangle (current page.south east);
+    
+        \node[anchor=north west]
+        at ([yshift=-10pt, xshift=15pt]current page.north west) (logo){
+            \includegraphics[width=0.5\paperwidth]{assets/title_logo.png}
+        };
+    \end{tikzpicture}
+    \centering
+    \usebeamerfont{title}\textcolor{white}{\inserttitle}\\
+    \usebeamerfont{frametitle}\textcolor{white}{\\Thank you for listening! \\ Any questions?}
+    \end{frame}
+\endgroup
+}
+
+\setbeamertemplate{itemize item}{\textbullet}
+\setbeamertemplate{itemize subitem}{\textemdash}
+\setbeamertemplate{itemize subsubitem}{\ensuremath{\circ}}
+
+\setbeamertemplate{frametitle continuation}
