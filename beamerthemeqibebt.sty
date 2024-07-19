@@ -1,6 +1,8 @@
 \ProvidesPackage{beamerthemeqibebt}[2024/07/18]
 
 \RequirePackage{etoolbox}
+\RequirePackage{booktabs}
+\RequirePackage{multirow}
 \RequirePackage{tikz,pdfrender}
 
 \RequirePackage{geometry}
@@ -25,13 +27,16 @@
 \setbeamerfont{block title}{size=\fontsize{20}{20},series=\centering\bfseries}
 
 \setsansfont{Times New Roman}
-\renewcommand{\normalsize}{family=\heiti,\fontsize{24}{24}\selectfont}
+\renewcommand{\normalsize}{\fontsize{24}{24}\selectfont}
+\renewcommand{\small}{\fontsize{20}{20}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{16}{16}\selectfont}
+
 
 \setbeamertemplate{navigation symbols}{}
 
 % 封面
 \setbeamertemplate{title page}{
-\begin{tikzpicture}[remember picture,overlay]
+    \begin{tikzpicture}[remember picture,overlay]
     \fill[maincolor]
     (current page.north west) rectangle (current page.south east);
 
@@ -79,7 +84,7 @@
     at ([yshift=110pt, xshift=-80pt]current page.south) (author){
         \usebeamerfont{author}
         \textcolor{white}
-        \insertauthor
+        汇报人：\insertauthor
     };
     
     \node[anchor=center]
@@ -88,7 +93,7 @@
         \textcolor{white}
         \insertdate
     };
-\end{tikzpicture}
+    \end{tikzpicture}
 }
 
 % 目录页
@@ -139,12 +144,12 @@
 \setbeamertemplate{headline}{
     \begin{tikzpicture}[remember picture,overlay]            
         \draw [color=maincolor] 
-        ([yshift=-75pt,xshift=-345]current page.north)
+        ([yshift=-60pt,xshift=-345]current page.north)
         --
-        ([yshift=-75pt,xshift=425]current page.north);
+        ([yshift=-60pt,xshift=425]current page.north);
     
         \node[anchor=north east]
-        at ([yshift=-30pt,xshift=-50]current page.north east) (title){
+        at ([yshift=-20pt,xshift=-50]current page.north east) (group_logo){
             \includegraphics[width=0.095\textwidth]{assets/sc_logo.png}
         };
     \end{tikzpicture}
@@ -152,7 +157,7 @@
     \pgfuseimage{\@logo}
 }
 \setbeamertemplate{frametitle}{
-    \vspace{-8ex}
+    \vspace{-7ex}
     \begin{beamercolorbox}[leftskip=4cm]{frametitle}
         \usebeamerfont{frametitle}\textcolor{black}{\insertframetitle}\\
         \usebeamerfont{framesubtitle}\insertframesubtitle
@@ -204,5 +209,11 @@
 \setbeamertemplate{itemize item}{\textbullet}
 \setbeamertemplate{itemize subitem}{\textemdash}
 \setbeamertemplate{itemize subsubitem}{\ensuremath{\circ}}
+
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\small}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\footnotesize}
+
+
 
 \setbeamertemplate{frametitle continuation}
