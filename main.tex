@@ -1,16 +1,14 @@
 \documentclass{beamer}
-\usepackage{amsfonts,amsmath,oldgerm}
-\usetheme{qibebt}
 \usepackage{xeCJK}
-\usefonttheme[onlymath]{serif}
+\usetheme{qibebt}
 
-\begin{document}
 
 \title{汇报正文标题}
 \subtitle{副标题}
 \author{作者}
 \date{\today}
 
+\begin{document}
 \maketitle
 
 % ----------以下为例子-----------
@@ -57,10 +55,11 @@
 \end{frame}
 
 \begin{frame}{复杂表格}
+    \centering
     \begin{table}[htb]
         \centering
         \small
-        \begin{tabular}{p{2.5cm}c{4cm}p{4cm}c{4cm}p{3.5cm}}
+        \begin{tabular}{p{2.5cm}p{4cm}p{4cm}p{4cm}p{3.5cm}}
             \toprule
             \textbf{Layer} & \textbf{Channel in} & \textbf{Size in} & \textbf{Channel out} & \textbf{Size out}\\
             \midrule
@@ -87,9 +86,7 @@
             \bottomrule
         \end{tabular}
     \end{table}
-    \centering
-    \small
-    模型各层张量流向
+    \small 模型各层张量流向
 \end{frame}
 
 \begin{frame}{分栏}

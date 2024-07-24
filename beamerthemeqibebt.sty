@@ -1,41 +1,42 @@
-\ProvidesPackage{beamerthemeqibebt}[2024/07/19]
-
 \RequirePackage{etoolbox}
 \RequirePackage{booktabs}
+
 \RequirePackage{multirow}
-\RequirePackage{tikz,pdfrender}
+\RequirePackage{tikz}
 
 \RequirePackage{geometry}
 \geometry{paperwidth=33.86cm,paperheight=19.05cm}
 
-\RequirePackage{graphicx}
-\RequirePackage{qibebtcolor}
+\RequirePackage{graphicx,qibebtcolor}
 
-\pgfdeclareimage[width=0.09\paperwidth]{whitelogo}{assets/logo_RGB}
-\pgfdeclareimage[width=0.09\paperwidth]{logo}{assets/logo_RGB_negative}
-\newcommand{\@logo}{logo}
+\RequirePackage{lmodern}
 
-\newcommand{\WRYaHeiZH}{\WRYaHei\CJKfamily{WRYaHei}}
-\setbeamerfont{title}{family=\WRYaHeiZH,size=\fontsize{36}{36}\selectfont,series=\bfseries}
-\setbeamerfont{subtitle}{family=\sonti,size=\fontsize{25}{25}\selectfont}
-\setbeamerfont{author}{family=\WRYaHeiZH,size=\fontsize{28}{28}\selectfont}
-\setbeamerfont{date}{family=\WRYaHeiZH,size=\fontsize{28}{28}\selectfont}
-\setbeamerfont{subtitle}{family=\WRYaHeiZH,size=\fontsize{28}{28}\selectfont}
-\setbeamerfont{frametitle}{family=\WRYaHeiZH,size=\fontsize{24}{24}\selectfont,series=\bfseries}
-\setbeamerfont{framesubtitle}{family=\sonti,size=\fontsize{15}{15}\selectfont}
+\newCJKfontfamily[msyh]\MSYH[BoldFont=MSYHBD.TTC]{msyh.ttc}
+\newCJKfontfamily[song]\songti{simsun.ttc}
+\setCJKmainfont[BoldFont=MSYHBD.TTC]{msyh.ttc}
+\setCJKsansfont[BoldFont=MSYHBD.TTC]{msyh.ttc}
+
+\setbeamerfont{title}{family=\MSYH,size=\fontsize{36}{36}\selectfont,series=\bfseries}
+\setbeamerfont{subtitle}{family=\songti,size=\fontsize{25}{25}\selectfont}
+\setbeamerfont{author}{family=\MSYH,size=\fontsize{28}{28}\selectfont}
+\setbeamerfont{date}{family=\MSYH,size=\fontsize{28}{28}\selectfont}
+\setbeamerfont{frametitle}{family=\MSYH,size=\fontsize{24}{24}\selectfont,series=\bfseries}
+\setbeamerfont{framesubtitle}{family=\songti,size=\fontsize{15}{15}\selectfont}
 \setbeamerfont{footline}{size=\fontsize{18}{18}}
 \setbeamerfont{block title}{size=\fontsize{20}{20},series=\centering\bfseries}
 
-\setsansfont{Times New Roman}
 \renewcommand{\normalsize}{\fontsize{24}{24}\selectfont}
 \renewcommand{\small}{\fontsize{20}{20}\selectfont}
 \renewcommand{\footnotesize}{\fontsize{16}{16}\selectfont}
 
+\RequirePackage{fontspec}
+\setsansfont{Times New Roman}
 
-\setbeamertemplate{navigation symbols}{}
+\usefonttheme[onlymath]{serif}
 
 % 封面
 \setbeamertemplate{title page}{
+    \thispagestyle{empty}
     \begin{tikzpicture}[remember picture,overlay]
     \fill[maincolor]
     (current page.north west) rectangle (current page.south east);
@@ -51,15 +52,6 @@
     \fill[maincolor, fill opacity=0.75]
     (current page.north west) rectangle (current page.south east);
 
-    \node[anchor=west]
-    at ([yshift=-80pt,xshift=20pt]current page.west) (subtitle){
-        \parbox[t]{0.55\paperwidth}{
-            \usebeamerfont{subtitle}
-            \textcolor{qibebtgray}
-            \insertsubtitle
-        }
-    };
-
     \node[anchor=north west]
     at ([yshift=-10pt, xshift=15pt]current page.north west) (logo){
         \includegraphics[width=0.5\paperwidth]{assets/title_logo.png}
@@ -69,14 +61,15 @@
     at ([yshift=10pt,xshift=10pt]current page.west) (title){
         \parbox[t]{0.55\textwidth}{
             \usebeamerfont{title}
-            \textcolor{white}%
-            {\textpdfrender{
-            TextRenderingMode=FillStroke,
-            FillColor=white,
-            LineWidth=.1ex,
-            }
-            \inserttitle
-            }
+            \textcolor{white}{\inserttitle}
+        }
+    };
+
+    \node[anchor=west]
+    at ([yshift=-80pt,xshift=20pt]current page.west) (subtitle){
+        \parbox[t]{0.55\paperwidth}{
+            \usebeamerfont{subtitle}
+            \textcolor{qibebtgray}{\insertsubtitle}
         }
     };
     
@@ -88,9 +81,8 @@
     
     \node[anchor=center]
     at ([yshift=50pt, xshift=-80pt]current page.south) (date){
-        \usebeamerfont{author}
-        \textcolor{white}
-        \insertdate
+        \usebeamerfont{date}
+        \textcolor{white}{\insertdate}
     };
     \end{tikzpicture}
 }
@@ -99,6 +91,7 @@
 \AtBeginSection[]{
     \begingroup
     \begin{frame}{Table of Contents}
+        \thispagestyle{empty}
         \setbeamercolor{normal text}{fg=white,bg=maincolor}
 		\setbeamercolor{structure}{fg=white}
         \begin{tikzpicture}[remember picture,overlay]
@@ -153,7 +146,7 @@
         };
     \end{tikzpicture}
     \hspace{0.04\textwidth}
-    \pgfuseimage{\@logo}
+    \includegraphics[width=0.09\paperwidth]{assets/logo_RGB_negative.png}
 }
 \setbeamertemplate{frametitle}{
     \vspace{-7ex}
@@ -167,17 +160,18 @@
 \makeatother
 
 % 页脚
-% \setbeamercolor{footline}{fg=darkgray, bg=}
-% \setbeamertemplate{footline}{
-%   \begin{beamercolorbox}[wd=\textwidth,ht=5mm,dp=3mm,rightskip=1cm,leftskip=1cm]{footline}
-%   \insertframenumber/\inserttotalframenumber
-%   \end{beamercolorbox}
-% }
+\setbeamercolor{footline}{fg=darkgray, bg=}
+\setbeamertemplate{footline}{
+  \begin{beamercolorbox}[wd=\textwidth,ht=5mm,dp=3mm,rightskip=1cm,leftskip=1cm]{footline}
+  \insertframenumber/\inserttotalframenumber
+  \end{beamercolorbox}
+}
 
 % 结束页
 \newcommand{\backmatter}[1][]{
 \begingroup
     \begin{frame}
+    \thispagestyle{empty}
     \begin{tikzpicture}[remember picture,overlay]
         \fill[maincolor]
         (current page.north west) rectangle (current page.south east);
@@ -206,13 +200,13 @@
 }
 
 \setbeamertemplate{itemize item}{\textbullet}
-\setbeamertemplate{itemize subitem}{\textemdash}
-\setbeamertemplate{itemize subsubitem}{\ensuremath{\circ}}
+\setbeamertemplate{itemize subitem}{\ensuremath{\circ}}
+% \setbeamertemplate{itemize subsubitem}{\ensuremath{\circ}}
 
-\setbeamerfont{itemize/enumerate body}{size=\normalsize}
-\setbeamerfont{itemize/enumerate subbody}{size=\small}
-\setbeamerfont{itemize/enumerate subsubbody}{size=\footnotesize}
+% \setbeamerfont{itemize/enumerate body}{size=\normalsize}
+% \setbeamerfont{itemize/enumerate subbody}{size=\small}
+% \setbeamerfont{itemize/enumerate subsubbody}{size=\footnotesize}
 
 
-
-\setbeamertemplate{frametitle continuation}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{frametitle continuation}{}
