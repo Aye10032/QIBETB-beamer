@@ -34,6 +34,17 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{更方便的列表}
+\centering
+列表间距更大，自动居中，并且添加了待办样式
+\vspace{2cm}
+    \begin{citemize}{0.3}
+        \litem 默认样式
+        \litem[Y] 添加参数Y
+        \litem[N] 添加参数N
+    \end{citemize}
+\end{frame}
+
 \begin{frame}{表格}
     \begin{table}
         \centering
@@ -92,19 +103,15 @@
 \begin{frame}{分栏}
     \begin{columns}
         \begin{column}{0.4\textwidth}
-        \begin{center}
-            \begin{minipage}{0.4\textwidth}
+        \begin{cenumerate}{0.4}
+            \item 有序列表1
+            \item 有序列表2
             \begin{enumerate}
-                \item 有序列表1
-                \item 有序列表2
-                \begin{enumerate}
-                    \item 有序子表
-                    \item 有序子表
-                \end{enumerate}
-                \item ...
+                \item 有序子表
+                \item 有序子表
             \end{enumerate}
-            \end{minipage}
-        \end{center}
+            \item ...
+        \end{cenumerate}
         \end{column}
         
         \begin{column}{0.6\textwidth}
@@ -116,6 +123,25 @@
             图2
         \end{column}
     \end{columns}
+\end{frame}
+
+\begin{frame}{算法}
+    \centering
+    \begin{minipage}{0.7\textwidth}
+        \begin{algorithm}[H]
+            \caption{Example Pseudocode}
+            \begin{algorithmic}
+                \ENSURE{$x$}
+                \REQUIRE{$y$}
+                \STATE $x\gets0$
+                \IF{$x\leq0$}
+                \STATE{$y\gets-1$}
+                \ELSE
+                \STATE{$y\gets1$}
+                \ENDIF
+            \end{algorithmic}
+        \end{algorithm}
+    \end{minipage}
 \end{frame}
 
 \section{进阶}

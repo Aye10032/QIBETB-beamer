@@ -1,8 +1,11 @@
 \RequirePackage{etoolbox}
 \RequirePackage{booktabs}
-
 \RequirePackage{multirow}
+
 \RequirePackage{tikz}
+
+\RequirePackage{algorithm}
+\RequirePackage{algorithmic}
 
 \RequirePackage{geometry}
 \geometry{paperwidth=33.86cm,paperheight=19.05cm}
@@ -10,14 +13,16 @@
 \RequirePackage{graphicx,qibebtcolor}
 
 \RequirePackage{lmodern}
+\RequirePackage{xparse}
+\RequirePackage{pifont}
 
-\newCJKfontfamily[msyh]\MSYH[BoldFont=MSYHBD.TTC]{msyh.ttc}
-\newCJKfontfamily[song]\songti{simsun.ttc}
-\setCJKmainfont[BoldFont=MSYHBD.TTC]{msyh.ttc}
-\setCJKsansfont[BoldFont=MSYHBD.TTC]{msyh.ttc}
+\newCJKfontfamily[msyh]\MSYH[Path=assets/fonts/,BoldFont=MSYHBD.TTC]{msyh.ttc}
+\newCJKfontfamily[song]\songti[Path=assets/fonts/,BoldFont=SimHei.ttf]{simsun.ttc}
+\setCJKmainfont[Path=assets/fonts/,BoldFont=MSYHBD.TTC]{msyh.ttc}
+\setCJKsansfont[Path=assets/fonts/,BoldFont=MSYHBD.TTC]{msyh.ttc}
 
 \setbeamerfont{title}{family=\MSYH,size=\fontsize{36}{36}\selectfont,series=\bfseries}
-\setbeamerfont{subtitle}{family=\songti,size=\fontsize{25}{25}\selectfont}
+\setbeamerfont{subtitle}{family=\songti,size=\fontsize{25}{25}\selectfont,series=\bfseries}
 \setbeamerfont{author}{family=\MSYH,size=\fontsize{28}{28}\selectfont}
 \setbeamerfont{date}{family=\MSYH,size=\fontsize{28}{28}\selectfont}
 \setbeamerfont{frametitle}{family=\MSYH,size=\fontsize{24}{24}\selectfont,series=\bfseries}
@@ -149,11 +154,18 @@
     \includegraphics[width=0.09\paperwidth]{assets/logo_RGB_negative.png}
 }
 \setbeamertemplate{frametitle}{
-    \vspace{-7ex}
+    \vspace{-6ex}
     \begin{beamercolorbox}[leftskip=4cm]{frametitle}
         \usebeamerfont{frametitle}\textcolor{black}{\insertframetitle}\\
-        \usebeamerfont{framesubtitle}\insertframesubtitle
     \end{beamercolorbox}
+    
+    % 设置副标题的绝对位置
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=north west] 
+        at ([yshift=-5.1ex,xshift=4.5cm]current page.north west) {
+            \usebeamerfont{framesubtitle}\textcolor{darkgray}{\insertframesubtitle}
+        };
+    \end{tikzpicture}
 }
 \makeatletter
     \pretocmd\beamer@checkframetitle{\framesubtitle{\thesection \, \secname}}
@@ -207,6 +219,39 @@
 % \setbeamerfont{itemize/enumerate subbody}{size=\small}
 % \setbeamerfont{itemize/enumerate subsubbody}{size=\footnotesize}
 
+% 居中列表
+\NewDocumentEnvironment{citemize}{ m }
+{
+    % 使用传入的参数来定义 minipage 的宽度，并居中
+    \begin{center}
+    \begin{minipage}{#1\textwidth}
+    \begin{itemize}
+}
+{
+    \end{itemize}
+    \end{minipage}
+    \end{center}
+}
+
+\NewDocumentEnvironment{cenumerate}{ m }
+{
+    % 使用传入的参数来定义 minipage 的宽度，并居中
+    \begin{center}
+    \begin{minipage}{#1\textwidth}
+    \begin{enumerate}
+}
+{
+    \end{enumerate}
+    \end{minipage}
+    \end{center}
+}
+
+% 自定义列表项
+\newcommand{\litem}[1][\relax]{%
+    \vspace{20pt}
+    \ifthenelse{\equal{#1}{\relax}}{\item}{%
+    \ifthenelse{\equal{#1}{Y}}{\item \textcolor{green}{\ding{52}}}{\item \textcolor{red}{\ding{56}}}}%
+}
 
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{frametitle continuation}{}
