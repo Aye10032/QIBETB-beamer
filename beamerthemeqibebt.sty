@@ -7,6 +7,8 @@
 \RequirePackage{algorithm}
 \RequirePackage{algorithmic}
 
+\RequirePackage{array}
+
 \RequirePackage{geometry}
 \geometry{paperwidth=33.86cm,paperheight=19.05cm}
 
@@ -16,28 +18,34 @@
 \RequirePackage{xparse}
 \RequirePackage{pifont}
 
-\newCJKfontfamily[msyh]\MSYH[Path=assets/fonts/,BoldFont=MSYHBD.TTC]{msyh.ttc}
+\newCJKfontfamily[NotoSansSC]\heiti[Path=assets/fonts/,BoldFont=NotoSansSC-Bold.ttf]{NotoSansSC-Regular.ttf}
 \newCJKfontfamily[song]\songti[Path=assets/fonts/,BoldFont=SimHei.ttf]{simsun.ttc}
-\setCJKmainfont[Path=assets/fonts/,BoldFont=MSYHBD.TTC]{msyh.ttc}
-\setCJKsansfont[Path=assets/fonts/,BoldFont=MSYHBD.TTC]{msyh.ttc}
+\setCJKmainfont[Path=assets/fonts/,BoldFont=NotoSansSC-Bold.ttf]{NotoSansSC-Regular.ttf}
+\setCJKsansfont[Path=assets/fonts/,BoldFont=NotoSansSC-Bold.ttf]{NotoSansSC-Regular.ttf}
 
-\setbeamerfont{title}{family=\MSYH,size=\fontsize{36}{36}\selectfont,series=\bfseries}
+\renewcommand{\large}{\fontsize{24}{24}\selectfont}
+\renewcommand{\normalsize}{\fontsize{20}{20}\selectfont}
+\renewcommand{\small}{\fontsize{18}{18}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{16}{16}\selectfont}
+
+\setbeamerfont{title}{family=\heiti,size=\fontsize{36}{36}\selectfont,series=\bfseries}
 \setbeamerfont{subtitle}{family=\songti,size=\fontsize{25}{25}\selectfont,series=\bfseries}
-\setbeamerfont{author}{family=\MSYH,size=\fontsize{28}{28}\selectfont}
-\setbeamerfont{date}{family=\MSYH,size=\fontsize{28}{28}\selectfont}
-\setbeamerfont{frametitle}{family=\MSYH,size=\fontsize{24}{24}\selectfont,series=\bfseries}
+\setbeamerfont{author}{family=\heiti,size=\fontsize{28}{28}\selectfont}
+\setbeamerfont{date}{family=\heiti,size=\fontsize{28}{28}\selectfont}
+\setbeamerfont{frametitle}{family=\heiti,size=\large,series=\bfseries}
 \setbeamerfont{framesubtitle}{family=\songti,size=\fontsize{15}{15}\selectfont}
+\setbeamerfont{section in toc}{size=\large,series=\bfseries}
+\setbeamerfont{subsection in toc}{size=\normalsize,series=\mdseries}
 \setbeamerfont{footline}{size=\fontsize{18}{18}}
 \setbeamerfont{block title}{size=\fontsize{20}{20},series=\centering\bfseries}
 
-\renewcommand{\normalsize}{\fontsize{24}{24}\selectfont}
-\renewcommand{\small}{\fontsize{20}{20}\selectfont}
-\renewcommand{\footnotesize}{\fontsize{16}{16}\selectfont}
-
 \RequirePackage{fontspec}
-\setsansfont{Times New Roman}
+\setsansfont{Arial}
 
 \usefonttheme[onlymath]{serif}
+
+\RequirePackage{setspace}
+\renewcommand{\baselinestretch}{1.5}
 
 % 封面
 \setbeamertemplate{title page}{
@@ -131,7 +139,14 @@
                 \textcolor{white}{CONTENTS}
             };
         \end{tikzpicture}
-        \tableofcontents[currentsection]
+
+        % 设置目录的偏移位置
+        \vspace{-4cm} % 向下偏移以避免与标题重叠
+        \hspace*{3cm} % 向右偏移，实际相当于内容距左侧5cm
+        \parbox[t][0.7\textheight]{0.5\textwidth}{ % 设置内容的宽度范围
+            \tableofcontents[currentsection]
+        }
+        % \tableofcontents[currentsection]
     \end{frame}
     \endgroup
 }
@@ -153,14 +168,14 @@
     \hspace{0.04\textwidth}
     \includegraphics[width=0.09\paperwidth]{assets/logo_RGB_negative.png}
 }
-\setbeamertemplate{frametitle}{
-    \vspace{-6ex}
-    \begin{beamercolorbox}[leftskip=4cm]{frametitle}
-        \usebeamerfont{frametitle}\textcolor{black}{\insertframetitle}\\
-    \end{beamercolorbox}
-    
-    % 设置副标题的绝对位置
+\setbeamertemplate{frametitle}{    
+    % 设置标题的绝对位置
     \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=north west] 
+        at ([yshift=-1.1ex,xshift=4.5cm]current page.north west) {
+            \usebeamerfont{frametitle}\textcolor{black}{\insertframetitle}
+        };
+
         \node[anchor=north west] 
         at ([yshift=-5.1ex,xshift=4.5cm]current page.north west) {
             \usebeamerfont{framesubtitle}\textcolor{darkgray}{\insertframesubtitle}
@@ -174,9 +189,37 @@
 % 页脚
 \setbeamercolor{footline}{fg=darkgray, bg=}
 \setbeamertemplate{footline}{
-  \begin{beamercolorbox}[wd=\textwidth,ht=5mm,dp=3mm,rightskip=1cm,leftskip=1cm]{footline}
-  \insertframenumber/\inserttotalframenumber
-  \end{beamercolorbox}
+    \begin{beamercolorbox}[wd=\textwidth,ht=5mm,dp=3mm,rightskip=1cm,leftskip=1cm]{footline}
+        \hspace*{\fill} % 推动内容到最右边
+        \insertframenumber/\inserttotalframenumber
+    \end{beamercolorbox}
+}
+
+% 图片侧边栏
+% Args: image, frame title
+\newenvironment{sidepic}[2]{
+    \begingroup
+    \setbeamertemplate{background}{%
+    \hspace*{0.5\paperwidth}%
+    \includegraphics[height=0.95\paperheight]{#1}
+    }
+    \setbeamertemplate{headline}{
+        \begin{tikzpicture}[remember picture,overlay]            
+            \draw [color=maincolor] 
+            ([yshift=-60pt,xshift=-345]current page.north)
+            --
+            ([yshift=-60pt,xshift=-50]current page.north);
+        \end{tikzpicture}
+        \hspace{0.04\textwidth}
+        \includegraphics[width=0.09\paperwidth]{assets/logo_RGB_negative.png}
+    }
+    \setbeamertemplate{footline}{}
+    \begin{frame}{#2}
+        \minipage{0.6\textwidth}%
+}{%
+        \endminipage
+    \end{frame}
+    \endgroup
 }
 
 % 结束页
@@ -251,6 +294,20 @@
     \vspace{20pt}
     \ifthenelse{\equal{#1}{\relax}}{\item}{%
     \ifthenelse{\equal{#1}{Y}}{\item \textcolor{green}{\ding{52}}}{\item \textcolor{red}{\ding{56}}}}%
+}
+\newcommand{\mitem}[1][\relax]{%
+    \vspace{15pt}
+    \ifthenelse{\equal{#1}{\relax}}{\item}{%
+    \ifthenelse{\equal{#1}{Y}}{\item \textcolor{green}{\ding{52}}}{\item \textcolor{red}{\ding{56}}}}%
+}
+
+
+\NewDocumentCommand{\cfig}{O{0.8}m}{%
+    \begin{center}
+        \begin{minipage}{#1\textwidth}
+            \includegraphics[width=\textwidth]{#2}
+        \end{minipage}
+    \end{center}
 }
 
 \setbeamertemplate{navigation symbols}{}
